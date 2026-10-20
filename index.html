@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scam or Slay? Spot fake messages</title>
+  <meta name="description" content="A quick quiz that helps students spot fake job offers, phishing, impersonation and misleading posts.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+
+  <main id="main">
+
+    <!-- HOME SCREEN -->
+    <section id="home" class="screen" aria-labelledby="home-title">
+      <h1 id="home-title" class="logo"><span class="w-scam">Scam</span> or <span class="w-safe">Slay</span>?</h1>
+      <p class="lead">Fake job offers. Dodgy delivery texts. A "friend" who suddenly needs money. Can you tell what's real?</p>
+      <p>Read 10 made-up messages and decide: <strong>Scam</strong> or <strong>Safe</strong>. After each answer you'll see the clues you can use in real life.</p>
+
+      <div class="sample" aria-hidden="true">
+        <p class="meta">Example message</p>
+        <p>Congratulations! <mark>Pay a small fee</mark> to claim your prize <mark>in the next 10 minutes</mark>.</p>
+      </div>
+
+      <button type="button" id="start-btn" class="btn primary">Start challenge</button>
+      <p class="note">Everything here is fictional. No real people, links or passwords, and you never need to type any.</p>
+    </section>
+
+    <!-- QUIZ SCREEN -->
+    <section id="quiz" class="screen" aria-labelledby="progress-text" hidden>
+      <div class="quiz-head">
+        <h2 id="progress-text" tabindex="-1">Message 1 of 10</h2>
+        <p class="score">Score: <strong id="score">0</strong></p>
+      </div>
+      <div id="progress" class="bar" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="10" aria-valuenow="1">
+        <div id="bar-fill"></div>
+      </div>
+
+      <article id="message" class="message">
+        <p class="meta"><span id="channel"></span>: <span id="sender"></span></p>
+        <p id="message-text"></p>
+      </article>
+
+      <form id="answer-form">
+        <fieldset>
+          <legend>Is this message a scam or safe?</legend>
+          <div class="choices">
+            <input type="radio" name="choice" id="choice-scam" value="scam">
+            <label for="choice-scam" class="choice scam">Scam</label>
+            <input type="radio" name="choice" id="choice-safe" value="safe">
+            <label for="choice-safe" class="choice safe">Safe</label>
+          </div>
+        </fieldset>
+        <button type="submit" id="submit-btn" class="btn primary" disabled>Submit answer</button>
+      </form>
+
+      <div id="feedback" class="feedback" tabindex="-1" hidden>
+        <h3 id="feedback-title"></h3>
+        <p id="feedback-text"></p>
+        <p class="clue-label">Clues to look for:</p>
+        <ul id="clue-list"></ul>
+      </div>
+
+      <button type="button" id="next-btn" class="btn primary" hidden>Next message</button>
+    </section>
+
+    <!-- RESULTS SCREEN -->
+    <section id="results" class="screen" aria-labelledby="results-title" hidden>
+      <h2 id="results-title" tabindex="-1">Your results</h2>
+      <p class="big-score"><span id="final-score">0</span><span class="out-of"> / <span id="final-total">10</span></span></p>
+      <p id="rank" class="rank"></p>
+      <p id="rank-text"></p>
+
+      <h3>Stay safe online</h3>
+      <ul id="tips" class="tips"></ul>
+
+      <button type="button" id="restart-btn" class="btn primary">Play again</button>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

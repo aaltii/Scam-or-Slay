@@ -1,0 +1,152 @@
+/* ---------- Design tokens ---------- */
+:root {
+  --ink: #1b1642;          /* main text */
+  --muted: #4a4577;        /* secondary text */
+  --paper: #f6f4ff;        /* page background */
+  --card: #ffffff;
+  --line: #cfc9f2;
+  --violet: #4a2fe0;       /* primary buttons */
+  --violet-dark: #3922b8;
+  --scam: #c4143f;         /* "Scam" answers */
+  --scam-tint: #ffe3ea;
+  --safe: #0b7a5a;         /* "Safe" answers */
+  --safe-tint: #d9f5ea;
+  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-head: "Bricolage Grotesque", "Atkinson Hyperlegible", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.55;
+}
+
+main {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; margin: 0 0 .75rem; }
+h2 { font-size: 1.4rem; }
+h3 { font-size: 1.25rem; }
+p { margin: 0 0 1rem; max-width: 62ch; }
+
+[hidden] { display: none !important; }
+
+.skip {
+  position: absolute; left: -999px; top: 0;
+  background: var(--ink); color: #fff; padding: .5rem 1rem; z-index: 10;
+}
+.skip:focus { left: 0; }
+
+/* ---------- Home ---------- */
+.logo { font-size: clamp(2.6rem, 11vw, 4.2rem); font-weight: 800; letter-spacing: -.02em; margin-top: 1.5rem; }
+.w-scam { color: var(--scam); }
+.w-safe { color: var(--safe); }
+.lead { font-size: 1.3rem; }
+.note { font-size: .95rem; color: var(--muted); margin-top: 1.25rem; }
+
+.sample {
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 1.25rem 1.25rem 1.25rem .25rem;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  transform: rotate(-1.5deg);
+  max-width: 28rem;
+}
+.sample p:last-child { margin: 0; }
+.sample mark { background: var(--scam-tint); color: var(--ink); text-decoration: underline wavy var(--scam); text-underline-offset: 4px; }
+
+/* ---------- Quiz header + progress ---------- */
+.quiz-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.quiz-head h2 { margin: 0; }
+.score { margin: 0; font-weight: 700; }
+.bar { height: .6rem; background: var(--line); border-radius: 1rem; overflow: hidden; margin: .75rem 0 1.25rem; }
+#bar-fill { height: 100%; width: 0; background: var(--violet); border-radius: 1rem; transition: width .3s; }
+
+/* ---------- Message card (looks like a chat bubble) ---------- */
+.message {
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 1.25rem 1.25rem 1.25rem .25rem;
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+.meta { font-size: .95rem; color: var(--muted); font-weight: 700; margin-bottom: .5rem; }
+#message-text { white-space: pre-line; margin: 0; }
+
+/* Clue highlights only appear after the player answers.
+   Underline styles differ (wavy vs solid) so colour is never the only signal. */
+.message.revealed.is-scam .clue { background: var(--scam-tint); text-decoration: underline wavy var(--scam); text-underline-offset: 4px; }
+.message.revealed.is-safe .clue { background: var(--safe-tint); text-decoration: underline solid var(--safe); text-underline-offset: 4px; }
+
+/* ---------- Answer choices ---------- */
+fieldset { border: 0; padding: 0; margin: 0 0 1rem; }
+legend { font-weight: 700; margin-bottom: .75rem; padding: 0; }
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+
+/* Real radio inputs are visually hidden but stay keyboard/screen-reader accessible */
+.choices input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+
+.choice {
+  display: flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 3.5rem; padding: .75rem 1rem;
+  border: 3px solid var(--line); border-radius: .9rem;
+  background: var(--card);
+  font-family: var(--font-head); font-weight: 800; font-size: 1.3rem;
+  cursor: pointer;
+}
+.choice.scam { border-color: var(--scam); color: var(--scam); }
+.choice.safe { border-color: var(--safe); color: var(--safe); }
+input:checked + .choice.scam { background: var(--scam); color: #fff; }
+input:checked + .choice.safe { background: var(--safe); color: #fff; }
+input:checked + .choice::before { content: "\2713"; }
+input:focus-visible + .choice { outline: 4px solid var(--ink); outline-offset: 3px; }
+
+/* After submitting: mark the right answer, and the player's wrong pick */
+input:disabled + .choice { cursor: default; opacity: .65; }
+.choice.correct { opacity: 1 !important; outline: 4px solid var(--ink); outline-offset: 3px; }
+.choice.correct::after { content: "(correct answer)"; font-family: var(--font-body); font-size: .85rem; font-weight: 400; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  font: inherit; font-weight: 700;
+  min-height: 3.25rem; padding: .75rem 1.75rem;
+  border-radius: .9rem; border: 3px solid transparent; cursor: pointer;
+}
+.btn.primary { background: var(--violet); color: #fff; }
+.btn.primary:hover:not(:disabled) { background: var(--violet-dark); }
+.btn:disabled { background: #d9d5ee; color: #4a4577; cursor: not-allowed; }
+.btn:focus-visible { outline: 4px solid var(--ink); outline-offset: 3px; }
+#answer-form .btn, #next-btn, #restart-btn, #start-btn { width: 100%; }
+@media (min-width: 30rem) {
+  #start-btn, #restart-btn { width: auto; }
+}
+
+/* ---------- Feedback ---------- */
+.feedback { border-radius: 1rem; padding: 1.1rem 1.25rem; margin: 1.25rem 0; border: 3px solid; }
+.feedback.right { background: var(--safe-tint); border-color: var(--safe); }
+.feedback.wrong { background: var(--scam-tint); border-color: var(--scam); }
+.feedback:focus { outline: none; }
+.feedback:focus-visible { outline: 4px solid var(--ink); outline-offset: 3px; }
+.clue-label { font-weight: 700; margin-bottom: .25rem; }
+.feedback ul { margin: 0; padding-left: 1.25rem; }
+.feedback li { margin-bottom: .35rem; }
+
+/* ---------- Results ---------- */
+.big-score { font-family: var(--font-head); font-weight: 800; font-size: 4.5rem; line-height: 1; margin-bottom: .5rem; }
+.out-of { font-size: 2rem; color: var(--muted); }
+.rank { font-family: var(--font-head); font-weight: 700; font-size: 1.5rem; margin-bottom: .5rem; }
+.tips { padding-left: 1.25rem; margin: 0 0 2rem; }
+.tips li { margin-bottom: .75rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
